@@ -2,10 +2,7 @@
     font-family: Roboto, sans-serif;
     color: aliceblue;
 }
-.title{
-    font-size: 50px;
-    letter-spacing: 2px;
-}
+
 .container{
     height: 100vh;
     width: 100vw;
@@ -13,7 +10,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    row-gap: 50px;
+    row-gap: 30px;
+}
+.title{
+    font-size: 50px;
+    letter-spacing: 2px;
+}
+.text-header{
+    font-size: 24px;
+    color: rgb(20,20,20);
 }
 .game-box{
     width: 450px;
@@ -49,9 +54,13 @@
     transition: 0.15s;
 }
 
-.button:hover{
+.hover:hover{
     cursor: pointer;
     background-color: aliceblue;
     color: rgb(20,20,20);
     opacity: 0.8;
+}
+
+.score-board{
+    height: 100px;
 }
