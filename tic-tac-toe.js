@@ -59,8 +59,10 @@ const ticTacToe = () =>{
         p1Score.innerText = 0;
         p2Score.innerText = 0;
         ties.innerText = 0;
-        p1Name.innerText = prompt('Please Enter Player 1 Name: ') + ' Score: '
-        p2Name.innerText = prompt('Please Enter Player 2 Name: ') + ' Score: '
+        let player1Name = prompt('Please Enter Player 1 Name: ');
+        let player2Name = prompt('Please Enter Player 2 Name: ');
+        p1Name.innerText = player1Name + ' Score: '
+        p2Name.innerText = player2Name + ' Score: '
         textHeader.innerText ="Multiplayer Mode. Player 1's Turn" //default text
         let thereIsWinner = false;
         gameBox.addEventListener("click", (e)=>{
@@ -117,13 +119,13 @@ const ticTacToe = () =>{
                     if (xWins){
                         thereIsWinner = true;
                         textHeader.style.color = "blue"
-                        textHeader.innerText = "Player 1 Wins! Click here to Continue."
+                        textHeader.innerText = player1Name + " Wins! Click here to Continue."
                         textHeader.style.cursor = "pointer";
                         p1Score.innerText = parseInt(p1Score.innerText) + 1;
                     }else if (oWins){
                         thereIsWinner = true;
                         textHeader.style.color = "red"
-                        textHeader.innerText = "Player 2 Wins! Click here to Continue."
+                        textHeader.innerText =  player2Name + " Wins! Click here to Continue."
                         textHeader.style.cursor = "pointer";
                         p2Score.innerText = parseInt(p2Score.innerText) + 1;
                     }
