@@ -1,16 +1,18 @@
 const ticTacToe = () =>{
-    const container = document.querySelector('.container');
     const gameBox = document.querySelector('.game-box');
     const chooseGameMode = document.querySelector('.buttons')
     const textHeader = document.querySelector('.text-header');
-    const multiScore = document.querySelector('.score-board');
+
     let numberOfGames = document.createElement('span');
     let playerOnesTurn = false;
     let clicks = 0;
 
-    let playerOneScore = document.createElement('span');
-    let playerTwoScore = document.createElement('span');
-    let tieScore = document.createElement('span');
+    let p1Score = document.getElementById('player1-score');
+    let p2Score = document.getElementById('player2-score');
+    let ties = document.getElementById('tie-score');
+
+    let p1Name = document.getElementById('player1-name');
+    let p2Name = document.getElementById('player2-name');
 
 
     const gameMode = () =>{
@@ -43,56 +45,22 @@ const ticTacToe = () =>{
         console.log("single player")
     
         //make AI
-        //renderGame();
         textHeader.innerText = "Single Player is still under construction."
-        textHeader.style.color = "aliceblue"
-    
-        while(multiScore.hasChildNodes()){
-            multiScore.removeChild(multiScore.firstChild);
-        }
+        textHeader.style.color = "aliceblue"    
     }
     
     const multiPlayer = () =>{
-        scoreBoard();
         renderGameMultiplayer();
         numberOfGames.innerText = 1;
     }
     
-    const scoreBoard = () =>{
-        container.appendChild(multiScore);
-        multiScore.style.width = "450px";
-        const playerOneScoreLabel = document.createElement('div');
-        multiScore.appendChild(playerOneScoreLabel);
-        const playerTwoScoreLabel = document.createElement('div');
-        multiScore.appendChild(playerTwoScoreLabel);
-        const tieScoreLabel = document.createElement('div');
-        multiScore.appendChild(tieScoreLabel);
-    
-        //Scoring style
-        multiScore.style.fontSize = "21px"
-        multiScore.style.display = "flex"
-        multiScore.style.flexDirection = "column"
-        multiScore.style.rowGap = "10px"
-    
-        playerOneScoreLabel.innerText = "Player1 Score: "
-        playerTwoScoreLabel.innerText = "Player2 Score: "
-        tieScoreLabel.innerText = "Ties: "
-    
-        playerOneScoreLabel.appendChild(playerOneScore)
-    
-        //playerOneScore.innerText = 0;
-    
-        playerTwoScoreLabel.appendChild(playerTwoScore)
-    
-        //playerTwoScore.innerText = 0;
-    
-        tieScoreLabel.appendChild(tieScore)
-    
-        //tieScore.innerText = 0;
-    }
-    
     const renderGameMultiplayer = () =>{
         textHeader.style.color = "aliceblue"
+        p1Score.innerText = 0;
+        p2Score.innerText = 0;
+        ties.innerText = 0;
+        p1Name.innerText = prompt('Please Enter Player 1 Name: ') + ' Score: '
+        p2Name.innerText = prompt('Please Enter Player 2 Name: ') + ' Score: '
         textHeader.innerText ="Multiplayer Mode. Player 1's Turn" //default text
         let thereIsWinner = false;
         gameBox.addEventListener("click", (e)=>{
@@ -135,32 +103,47 @@ const ticTacToe = () =>{
                 }
                 clicks++;
             }
-            console.log(clicks,numberOfGames.innerText)
-        })
-        if(clicks === 9){
-            resetGame();
-            textHeader.style.color = "aliceblue"
-            textHeader.innerText = "Tie Game! Press Enter to Continue."
-        }else{
-            let {xWins,oWins} = gameChecker();
-            if (xWins){
-                thereIsWinner = true;
-                textHeader.style.color = "blue"
-                textHeader.innerText = "Player 1 Wins! Press this to Continue."
-                textHeader.style.cursor = "pointer";
-                textHeader.addEventListener('click', e =>{
-                    if (e.target){
-                        console.log("pumapasok?")
-                        resetGame();
+            if(thereIsWinner){
+                e.preventDefault();
+            }else{
+                if(clicks === 9){
+                    thereIsWinner = true;
+                    textHeader.style.color = "aliceblue"
+                    textHeader.innerText = "Tie Game! Click here to Continue."
+                    textHeader.style.cursor = "pointer";
+                    ties.innerText = parseInt(ties.innerText) +1;
+                }else{
+                    let {xWins,oWins} = gameChecker();
+                    if (xWins){
+                        thereIsWinner = true;
+                        textHeader.style.color = "blue"
+                        textHeader.innerText = "Player 1 Wins! Click here to Continue."
+                        textHeader.style.cursor = "pointer";
+                        p1Score.innerText = parseInt(p1Score.innerText) + 1;
+                    }else if (oWins){
+                        thereIsWinner = true;
+                        textHeader.style.color = "red"
+                        textHeader.innerText = "Player 2 Wins! Click here to Continue."
+                        textHeader.style.cursor = "pointer";
+                        p2Score.innerText = parseInt(p2Score.innerText) + 1;
                     }
-                })
-            }else if (oWins){
-                thereIsWinner = true;
-                textHeader.style.color = "red"
-                textHeader.innerText = "Player 2 Wins! Press this to Continue."
+                }
+                textHeader.addEventListener('click', e =>{
+                    if (!thereIsWinner){
+                        e.preventDefault();
+                    }else if (e.target){
+                        resetGame();
+                        thereIsWinner = false;
+                        textHeader.style.cursor = "default";
+                    }
+                    if (playerOnesTurn){
+                        textHeader.innerText ="Multiplayer Mode. Player 2's turn"
+                    }else{
+                        textHeader.innerText ="Multiplayer Mode. Player 1's Turn"
+                    }
+                });
             }
-        }
-
+        })
     
     }
 
@@ -168,6 +151,7 @@ const ticTacToe = () =>{
         console.log("game is reset")        
         numberOfGames.innerText = parseInt(numberOfGames.innerText) + 1;
         clicks = 0;
+        textHeader.style.color = 'aliceblue'
 
         for (let i=0; i<gameBox.children.length; i++){
             gameBox.children[i].innerText = "";

@@ -63,4 +63,9 @@
 
 .score-board{
     height: 100px;
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    font-size: 21px;
 }
